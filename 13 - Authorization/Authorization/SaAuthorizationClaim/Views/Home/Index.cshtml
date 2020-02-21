@@ -1,0 +1,16 @@
+﻿@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService authService
+<h2>Manager Portal</h2>
+<table>
+   <tr>
+      <td>Give Bonuses: <a asp-controller="Manager" asp-action="GiveBonus"> Give Bonus</a></td>
+   </tr>
+   <tr>
+      <td>Pay Expenses: <a asp-controller="Manager"
+                         asp-action="PayExpenses"
+                         asp-route-Name=@Context.Session.GetString("userName")
+                         asp-route-HasExpenseCredit="true">Pay Expense</a>
+      </td>
+   </tr>
+</table>
+<a asp-controller="Security" asp-action="Logout">Logout</a>

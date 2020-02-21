@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8" />
+   <script src="../Js/jquery-3.2.1.js"></script>
+   <title></title>
+   <style>
+      body { font-family: Arial, Sans-serif; }
+      .error { color: red; font-family: verdana, Helvetica; }
+   </style>
+</head>
+<body>
+   <h1> Form Validation</h1>
+   <hr />
+   <form name="demo" onsubmit="return validateFormOnSubmit(this)" action="test.htm">
+      <table summary="Demonstration form">
+         <tbody>
+            <tr>
+               <td><label for="username">User name:</label></td>
+               <td>*<input id="uiUserName" size="35" maxlength="50" type="text" /></td>
+            </tr>
+            <tr>
+               <td><label for="pwd">Password</label></td>
+               <td>*<input id="uiPassword" size="35" maxlength="25" type="password" /></td>
+            </tr>
+            <tr>
+               <td><label for="email">Email:</label></td>
+               <td>*<input id="uiEmail" size="35" maxlength="30" type="text" value="aol.ao@aol.com" /></td>
+            </tr>
+            <tr>
+               <td><label for="phone">Phone:</label></td>
+               <td>*<input id="uiPhone" name="phone" size="35" maxlength="25" type="text" value="480-544-3297" /></td>
+            </tr>
+
+            <tr>
+               <td>
+                  <label for="from">Gender :</label>
+               </td>
+               <td>
+                  *
+                  <input type="radio" name="genderGroup" id="uiMale" value=1 />Male
+                  <input type="radio" name="genderGroup" id="uiFemale" value=2 />Female
+                  <input type="radio" name="genderGroup" id="uiOther" value=3 />Other
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <label for="from">State :</label>
+               </td>
+               <td>
+                  *
+                  <select id="uiStates">
+                     <option value="0"></option>
+                     <option value="1">CA</option>
+                     <option value="2">AZ</option>
+                     <option value="2">NY</option>
+                     <option value="2">NC</option>
+                  </select>
+               </td>
+            </tr>
+            <tr>
+               <td>
+                  <label for="from">Languages  :</label>
+               </td>
+               <td>
+                  *
+                  <input type="checkbox" name="languageGroup" value="english" />English
+                  <input type="checkbox" name="languageGroup" value="spanish" />Spanish
+                  <input type="checkbox" name="languageGroup" value="turkish" />Turkish
+                  <input type="checkbox" name="languageGroup" value="german" /> German
+               </td>
+            </tr>
+            <tr>
+               <td>&nbsp;</td>
+               <td><input name="Submit" value="Submit" type="button" onclick="return validateForm()" /></td>
+               <td>&nbsp;</td>
+            </tr>
+         </tbody>
+      </table>
+   </form>
+   <hr />
+   <div id="uiError"></div>
+
+   <div id="msg" class="error">No errors!</div>
+</body>
+</html>
+<script type="text/javascript">
+   var user = {
+      userName: "",
+      password: "",
+      email: "",
+      phone: "",
+      gender: "",
+      state: "",
+      languages: [],
+      userName: "",
+   }
+
+
+   function validateForm() {
+
+      var errors = "";
+
+      var newUser = user;
+      newUser.languages = []; //clear object array
+
+      // validate userName
+      var userNameField = $('#uiUserName');
+      if ($.trim(userNameField.val()).length <= 1) {
+         errors = errors + '<br> Enter User Name!';
+      } else {
+         newUser.userName = $.trim(userNameField.val());
+      }
+
+      // validate email
+      var emailField = $('#uiEmail').val();
+      if (!validateEmail(emailField)) {
+         errors = errors + '<br> Please Enter valid email adress!';
+      } else {
+         newUser.email = $.trim(emailField);
+      }
+
+      // validate phoneNumber
+      var phoneField = $('#uiPhone').val();
+      if (!validatePhone(phoneField)) {
+         errors = errors + '<br> Please Enter valid phone number!';
+      } else {
+         newUser.phone = $.trim(phoneField);
+      }
+
+      // validate password
+      var passwordField = $('#uiPassword');
+      console.dir(passwordField.val());
+      console.log("passwordField.length= " + passwordField.val().length);
+      if (passwordField.val().length < 4) {
+         errors = errors + '<br> You must enter a more then 4 character  Password!';
+      } else {
+         newUser.password = $.trim(passwordField.val());
+      }
+
+      // validate radio boxes
+      var genderFields = $('input[name="genderGroup"]:checked');
+      if (genderFields.length === 0) {
+         errors = errors + '<br> You must check at least one gender!';
+      } else {
+         newUser.gender = $.trim(genderFields.val());
+      }
+
+      // validate select
+      var statesFields = $('#uiStates option:selected');
+      console.dir(statesFields.val());
+      if (statesFields.val() == 0) {
+         errors = errors + '<br> You must select a State!';
+      } else {
+         newUser.state = $.trim(statesFields.val());
+      }
+
+      // validate check boxes
+      var languageFields = $('input[name="languageGroup"]:checked');
+      console.dir(languageFields);
+      if (languageFields.length === 0) {
+         errors = errors + '<br> You must check at least one language!';
+      } else {
+         var languageSelectedArray = $('input[name="languageGroup"]:checked').map(function () {
+            return $(this).val();
+         }).get();
+
+
+
+         languageSelectedArray.forEach(function (item, index) {
+            console.log("language= " + item);
+            newUser.languages.push(item);
+         }
+         )
+      }
+
+      if (errors != "") {
+         $("#uiError").html(errors).css("color", "red");
+         return false;
+      }
+      console.log(errors);
+
+      errors = "NO ERRORS!";
+      $('#msg').html(JSON.stringify(newUser));
+
+      $("#uiError").html(errors).css("color", "green");
+      return true;
+   }
+
+   function validateEmail(email) {
+      if ($.trim(email).length < 4)
+         return false;
+      var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+      if (filter.test(email)) {
+         return true;
+      }
+      else {
+         return false;
+      }
+   }
+
+   function validatePhone(phone) {
+      if ($.trim(phone).length < 4)
+         return false;
+      var filter = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+      if (filter.test(phone)) {
+         return true;
+      }
+      else {
+         return false;
+      }
+   }
+</script>

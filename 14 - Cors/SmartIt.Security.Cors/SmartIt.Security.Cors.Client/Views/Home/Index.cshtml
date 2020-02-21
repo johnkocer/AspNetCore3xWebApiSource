@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <meta name="viewport" content="width=device-width" />
+   <title>ASP.NET Core CORS</title>
+   <script src="~/js/jquery.min.js"></script>
+</head>
+<body>
+   <script src="~/js/jquery.min.js"></script>
+   <script type="text/javascript">
+      $(document).ready(function () {
+         var ulEmployees = $('#ulEmployees');
+         var url = 'http://localhost:24392/api/GetEmployees';
+         $('#btn').click(function () {
+            $.ajax({
+               method: 'GET',
+               url: url,
+               dataType: 'json',
+               success: function (data) {
+                  console.dir(data);
+                  $("#uiEmployees").text(JSON.stringify(data));
+               }
+            });
+         });
+         $('#btnClear').click(function () {
+            $("#uiEmployees").text("");
+         });
+
+         $("#uiGetEmployee").click(function () {
+            $.ajax({
+               method: 'GET',
+               url: 'http://localhost:24392/api/GetEmployee/1'
+            }).done(function (data, statusText, xhdr) {
+               $("#results").text(JSON.stringify(data));
+            }).fail(function (xhdr, statusText, errorText) {
+               $("#results").text(JSON.stringify(xhdr));
+            });
+         });
+      });
+   </script>
+   <h1>ASP.NET Core CORS</h1>
+
+   <div>
+      <input id="btn" type="button" value="Get All Employees" />
+      <input id="btnClear" type="button" value="Clear" />
+      <div id="uiEmployees"></div>
+   </div>
+   <div>
+      <input type="button" id="uiGetEmployee" value="Get Employee" />
+      <div id="results"></div>
+   </div>
+</body>
+</html>

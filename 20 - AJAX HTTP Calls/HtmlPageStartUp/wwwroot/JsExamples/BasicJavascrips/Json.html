@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8" />
+   <title>Hello World</title>
+</head>
+<body>
+   <h1>Hello World!</h1>
+   <br />
+   <div id="uiInfo"></div>
+   <input type="button" value="Debug" onclick="myFunction()" />
+   <hr />
+
+   <div id="uiEmployeeInfo"></div>
+   <input type="button" value="DisplayJson" onclick="onDisplayJson()" />
+   <script>
+      // employee object
+      var employee = {};
+      employee.Name = "Mike Koc";
+      employee.City = "Los Angeles";
+      employee.State = "LA";
+   </script>
+   <!-- script tag tells browser to register JavaScrip blogs -->
+   <script type="text/javascript">
+      function myFunction() {
+         var info = document.getElementById("uiInfo");
+         info.innerHTML = JSON.stringify(employee);
+         console.dir(employee);
+         console.log("employee= " + JSON.stringify(employee));
+         alert(JSON.stringify(employee));
+      }
+
+      function onDisplayJson() {
+         let employeeReturn = returnJson();
+         var info = document.getElementById("uiEmployeeInfo");
+
+         info.innerHTML = JSON.stringify(employeeReturn);
+         console.log("employeeJson= ");
+         console.dir(employeeReturn);
+      }
+
+      function returnJson() {
+         var employee= {
+            "firstName": "John",
+               "lastName": "Kocer",
+                  "address": {
+               "streetAddress": "One Microsoft Way",
+                  "city": "Los Angeles",
+                     "state": "LA",
+                        "postalCode": 80021
+            },
+            "phoneNumbers": [
+               "212 555-4434",
+               "846 555-9967"
+            ]
+
+         }
+
+         return employee;
+      }
+   </script>
+</body>
+</html>

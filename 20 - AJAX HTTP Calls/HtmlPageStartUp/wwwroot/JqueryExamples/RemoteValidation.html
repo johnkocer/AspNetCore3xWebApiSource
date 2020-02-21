@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8" />
+   <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+   <title></title>
+   <script src="../Js/jquery-3.2.1.js"></script>
+   <style>
+      body { font-family: Arial, Sans-serif; } 
+      .error { color: red; font-family: verdana, Helvetica; }
+   </style>
+</head>
+<body>
+   Hello HTML Page!
+   <form id="uiForm">
+      <label>Email </label><br />
+      <input type="text" id="uiEmail" name="uiEmail" placeholder="amd@amd.com" />
+      <label id="uiEmailMessage"></label>
+      <br />
+      <input type="button" name="submit" value="Submit" onclick="return isEmailTaken();" />
+   </form>
+   <br />
+   <div id="uiMsg">message</div>
+</body>
+</html>
+<script type="text/javascript">
+   function isEmailTaken() {
+      $("#uiEmailMessage").html("No Errors yet!").css("color", "green");
+
+      var email = $("#uiEmail").val();
+      var options = {};
+      options.url = "/api/EmailIsExist";
+      options.type = "POST";
+      var obj = email;
+      console.log('in isEmailTaken');
+      console.dir(obj);
+      options.data = JSON.stringify(obj);
+      options.contentType = "application/json";
+      options.dataType = "json";
+
+      options.success = function (msg) {
+         console.log("msg= " + msg);
+         //alert(msg);
+         $("#uiMsg").html(msg);
+         if (msg == true){
+            $("#uiEmailMessage").html("Email is taken!").css("color", "red");
+            $("#uiEmail").css("color", "red");
+         }
+         else {
+            $("#uiEmailMessage").html(email + ' is available!').css("color", "green");
+            $("#uiEmail").css("color", "green");
+         }
+         return msg;
+      },
+         options.error = function () {
+            var error = $("#uiMsg").html("Error while calling the Web API!");
+            $("#uiEmailMessage").html(error).css("color", "red");
+         };
+      $.ajax(options);
+   }
+
+</script>

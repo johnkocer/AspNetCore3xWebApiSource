@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8" />
+   <!--<script src="lib/jquery/dist/jquery.js"></script>
+   <script src="lib/jquery-validation/dist/jquery.validate.js"></script>-->
+   <!--<script src="lib/jquery-validation/dist/additional-methods.js"></script>-->
+   <title></title>
+   <style>
+      body {
+         font-family: Arial, Sans-serif;
+      }
+
+      .error {
+         color: red;
+         font-family: verdana, Helvetica;
+      }
+   </style>
+</head>
+<body>
+   Hello HTML Page!
+   <hr />
+   <div id="uiEmployeeDebug"></div>
+   <hr />
+
+
+   <hr />
+   <div id="uiEmployeeTemp"></div>
+   <hr />
+
+   <input type="button" value="Submit" onclick="storeEmployeeInDivAsAtribute()" />
+   <hr />
+   <input type="button" value="SubmitRed" onclick="storeEmployeeInDivAsAtributeDoubleQoute()" />
+   <script>
+      // ------------------
+      var stringValue1 = 'abc';
+      var stringValue2 = "abc";
+      if (stringValue1 == stringValue2)
+         console.log("== They are the same")
+      else
+         console.log("== They are NOT the same")
+
+      if (stringValue1 === stringValue2)
+         console.log("=== They are the same")
+      else
+         console.log("=== They are NOT the same")
+      ///  == They are the same
+      ///  === They are the same
+
+      //document.getElementById("uiEmployeeDebug").html(JSON.stringify(employee));
+   </script>
+</body>
+</html>
+<script type="text/javascript">
+      var employee = {
+         name: 'John',
+         city: 'Raleigh',
+         age: 20
+      };
+
+      function storeEmployeeInDivAsAtribute() {
+         var employeeStringify = document.getElementById("uiEmployeeDebug").innerHTML = JSON.stringify(employee);
+
+         var panelDiv = '<div id="uiPanel" data-name=' + employee.name + ' data-city=' + employee.city + ' data-age=' + employee.age + ' >' + employeeStringify + '</div>';
+
+         document.getElementById("uiEmployeeTemp").innerHTML = panelDiv;
+         console.log(document.getElementById("uiEmployeeTemp").innerHTML);
+
+         //var employeeName = document.getElementById("uiEmployeeTemp").getAttribute("data-name");
+         var employeeName = document.getElementById("uiPanel");
+         console.log('employee.name= ' + employeeName.dataset.name);
+
+      }
+
+      function storeEmployeeInDivAsAtributeDoubleQoute() {
+         var employeeStringify = document.getElementById("uiEmployeeDebug").innerHTML = JSON.stringify(employee);
+
+         var panelDiv = "<div id=\"uiPanel\" style=\"color:red\"  data-name=" + employee.name + " data-city=" + employee.city + " data-age=" + employee.age + " >" + employeeStringify + "</div>";
+
+         document.getElementById("uiEmployeeTemp").innerHTML = panelDiv;
+         console.log(document.getElementById("uiEmployeeTemp").innerHTML);
+
+         //var employeeName = document.getElementById("uiEmployeeTemp").getAttribute("data-name");
+         var employeeName = document.getElementById("uiPanel");
+         console.log('employee.name= ' + employeeName.dataset.name);
+
+      }
+</script>

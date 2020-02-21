@@ -1,0 +1,21 @@
+﻿<form asp-controller="Security" asp-action="Login" method="post">
+   <input type="hidden" name="requestPath" id="requestPath" value="@ViewBag.RequestPath" />
+   <table>
+      <tr>
+         <th>User Name</th>
+         <td>
+            <input type="text" name="userName" id="userName" />
+         </td>
+      </tr>
+      <tr>
+         <th>Password</th>
+         <td>
+            <input type="password" name="password" id="password" />
+         </td>
+      </tr>
+      <tr>
+         <th></th>
+         <td><input type="submit" value="Login" /></td>
+      </tr>
+   </table>
+</form>

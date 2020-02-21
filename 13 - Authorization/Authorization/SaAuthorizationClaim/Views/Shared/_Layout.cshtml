@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Http;
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ASP.NET Core Authentication</title>
+</head>
+<body>
+   <div>
+      <h1>Employee Portal</h1> 
+      <p>
+         You're <strong>@Context.Session.GetString("userName")  - @Context.User.Identity.Name</strong>
+         <a asp-controller="Security" asp-action="Logout"> (Logout)</a>
+      </p>
+      <hr />
+      @RenderBody()
+      <hr />
+      <br />
+      <a asp-controller="Home" asp-action="Index">Home</a>
+   </div>
+</body>
+</html>

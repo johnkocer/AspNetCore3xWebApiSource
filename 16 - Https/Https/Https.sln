@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartIt.Security.RequireHttps", "SmartIt.Security.RequireHttps\SmartIt.Security.RequireHttps.csproj", "{21C6D024-7249-43D5-91D1-01A0B7C94DF3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21C6D024-7249-43D5-91D1-01A0B7C94DF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21C6D024-7249-43D5-91D1-01A0B7C94DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21C6D024-7249-43D5-91D1-01A0B7C94DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21C6D024-7249-43D5-91D1-01A0B7C94DF3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F33E808-7343-4221-9DA0-B41DA0DA3BCE}
+	EndGlobalSection
+EndGlobal

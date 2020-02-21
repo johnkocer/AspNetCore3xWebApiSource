@@ -1,0 +1,11 @@
+﻿@model EmptyCoreProject.Models.Hi
+@{
+   ViewData["Title"] = "Index";
+}
+<h2>Index</h2>
+<p>@Model.SayHi</p>
+
+   Date:<label id="uiDate"></label>
+<script>
+   document.getElementById("uiDate").innerHTML = new Date();
+</script>

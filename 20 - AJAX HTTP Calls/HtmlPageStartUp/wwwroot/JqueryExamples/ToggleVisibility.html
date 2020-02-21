@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <script src="../Js/jquery-3.2.1.js"></script>
+   <title></title>
+</head>
+<body>
+   <h1>Toggle Visibility</h1>
+   <textarea id="uiTextArea"> I am visible</textarea>
+   <br />
+   <input type="button" value="TogleVisible" onclick="togleVisibleJquery()" />
+</body>
+</html>
+<script>
+   function togleVisibleJquery() {
+      $("#uiTextArea").toggle();
+   }
+</script>

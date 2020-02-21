@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8" />
+   <script src="../Js/jquery-3.2.1.js"></script>
+   <title></title>
+   <style> body { font-family: Arial, Sans-serif; } 
+      .error { color: red; font-family: verdana, Helvetica; }
+   </style>
+</head>
+<body>
+   <h1> AJAX calls - HttpDelete</h1>
+   <form>
+      <table id="employeeTable" style="border: 1px solid #999" cellpadding="1">
+         <thead>
+            <tr>
+               <td>Id </td>
+               <td> Name </td>
+               <td> Gender </td>
+               <td> Salary </td>
+               <td> </td>
+            </tr>
+            <tr>
+               <td></td>
+               <td><input id="name" type="text" /></td>
+               <td><input id="gender" type="text" /></td>
+               <td><input id="salary" type="text" /></td>
+               <td><input type="button" id="insert" value="Insert" onclick='onAddEmployee(this)' /></td>
+            </tr>
+         </thead>
+      </table>
+   </form>
+   <hr />
+   <div id="uiInfo"></div>
+
+   <input type="button" value="HttpGet" onclick="getEmployeeList()" />
+
+   <div id="msg" class="error">No errors!</div>
+</body>
+</html>
+<script type="text/javascript">
+   $(document).ready(function () {
+      getEmployeeList();
+   });  
+
+   var Employee = {
+      id: 0,
+      name: "",
+      gender: "",
+      salary: ""
+   }
+
+   // Get all Employees to display
+   function getEmployeeList() {
+      // Call Web API to get a list of Employees
+      $.ajax({
+         url: '/api/GetEmployees/',
+         type: 'GET',
+         dataType: 'json',
+         success: function (employees) {
+            employeeListSuccess(employees);
+         },
+         error: function (request, message, error) {
+            handleException(request, message, error);
+         }
+      });
+   }
+
+   // Display all Employees returned from Web API call
+   function employeeListSuccess(employees) {
+      $("#uiInfo").html(JSON.stringify(employees));
+      console.log(JSON.stringify(employees));
+      // Iterate over the collection of data  
+      $("#employeeTable tbody").remove();
+      $.each(employees, function (index, employee) {
+         // Add a row to the employee table  
+         employeeAddRow(employee);
+      });  
+
+   }
+
+   // Add employee row to <table>  
+   function employeeAddRow(employee) {
+      // First check if a <tbody> tag exists, add one if not  
+      if ($("#employeeTable tbody").length == 0) {
+         $("#employeeTable").append("<tbody></tbody>");
+      }
+
+      // Append row to <table>  
+      $("#employeeTable tbody").append(
+         employeeBuildTableRow(employee));
+   }
+
+   function employeeUpdate(item) {
+      var id = $(item).data("id");
+      var options = {};
+      options.url = "/api/UpdateEmployee/"
+      options.type = "PUT";
+
+      var obj = Employee;
+      obj.id = $(item).data("id");
+      obj.name = $(".input-name", $(item).parent().parent()).val();
+      obj.gender = $(".input-gender", $(item).parent().parent()).val();
+      obj.salary = $(".input-salary", $(item).parent().parent()).val();
+      console.dir(obj);
+      options.data = JSON.stringify(obj);
+      options.contentType = "application/json";
+      options.dataType = "html";
+      options.success = function (msg) {
+         getEmployeeList();
+         $("#msg").html(msg);
+      };
+      options.error = function () {
+         $("#msg").html("Error while calling the Web API!");
+      };
+      $.ajax(options);
+   }  
+
+   // Build a <tr> for a row of table data  
+   function employeeBuildTableRow(employee) {
+      var newRow = "<tr>" +
+         "<td>" + employee.id + "</td>" +
+         "<td><input   class='input-name' type='text' value='" + employee.name + "'/></td>" +
+         "<td><input  class='input-gender'  type='text' value='" + employee.gender + "'/></td>" +
+         "<td><input  class='input-salary' type='text' value='" + employee.salary + "'/></td>" +
+         "<td>" +
+         "<button type='button' " +
+         "onclick='employeeUpdate(this);' " +
+         "class='btn btn-default' " +
+         "data-id='" + employee.id + "' " +
+         "data-name='" + employee.name + "' " +
+         "data-gender='" + employee.gender + "' " +
+         "data-salary='" + employee.salary + "' " +
+         ">" +
+         "<span class='glyphicon glyphicon-edit' /> Update" +
+         "</button> " +
+         " <button type='button' " +
+         "onclick='employeeDelete(this);'" +
+         "class='btn btn-default' " +
+         "data-id='" + employee.id + "'>" +
+         "<span class='glyphicon glyphicon-remove' />Delete" +
+         "</button>" +
+         "</td>" +
+         "</tr>";
+
+      return newRow;
+   }  
+
+   function onAddEmployee(item) {
+      var options = {};
+      options.url = "/api/AddEmployee";
+      options.type = "POST";
+      var obj = Employee;
+      obj.name = $("#name").val();
+      obj.gender = $("#gender").val();
+      obj.salary = $("#salary").val();
+      console.dir(obj);
+      options.data = JSON.stringify(obj);
+      options.contentType = "application/json";
+      options.dataType = "html";
+
+      options.success = function (msg) {
+         getEmployeeList();
+         $("#msg").html(msg);
+      },
+         options.error = function () {
+            $("#msg").html("Error while calling the Web API!");
+         };
+      $.ajax(options);
+   }  
+
+   function employeeDelete(item) {
+      var id = $(item).data("id");
+      var options = {};
+      options.url = "/api/DeleteEmployee/"
+         + id;
+      options.type = "DELETE";
+      options.dataType = "html";
+      options.success = function (msg) {
+         console.log('msg= ' + msg);
+         $("#msg").html(msg);
+         getEmployeeList();
+      };
+      options.error = function () {
+         $("#msg").html("Error while calling the Web API!");
+      };
+      $.ajax(options);
+   }  
+
+   // Handle exceptions from AJAX calls
+   function handleException(request, message, error) {
+      var msg = "";
+      msg += "Code: " + request.status + "\n";
+      msg += "Text: " + request.statusText + "\n";
+      if (request.responseJSON != null) {
+         msg += "Message" + request.responseJSON.Message + "\n";
+      }
+
+      alert(msg);
+   }
+</script>

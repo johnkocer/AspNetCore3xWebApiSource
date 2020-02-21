@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>My First HTML Page</title>
+   <script src="Js/jquery-3.2.1.js"></script>
+</head>
+<body>
+   <h3>My First HTML Page</h3>
+   <input id ="uiName" type="text" /> 
+   <br />
+   <input id="uiSubmit" type="button" value="Submit"  />
+
+</body>
+</html>
+<script>
+   $('#uiSubmit').click(function () {
+      var name = $('#uiName').val();
+      alert('Hi ' + name + ',  Welcome the class! ');
+   });
+</script>
